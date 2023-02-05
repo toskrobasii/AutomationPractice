@@ -1,12 +1,10 @@
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // hermetyzacja (enkaspulacja) - public / private/ protected
 // zagnieżdżanie klas w Java
@@ -51,4 +49,43 @@ public class UltimateQATest extends PageSetup {
         WebElement thanksForContactingUsText = driver.findElement(By.xpath("//div[@class='et-pb-contact-message']/p"));
         Assertions.assertEquals("Thanks for contacting us", thanksForContactingUsText.getText());
     }
+
+    @Test
+    public void testThree() {
+        List<WebElement> listOfQATitles = driver.findElements(By.xpath("//table[@id='htmlTableId']//tr"));
+        Assertions.assertEquals(4, listOfQATitles.size());
+
+        // //table[@id='htmlTableId']//tr[1]/td[1]
+        // //table[@id='htmlTableId']//tr[4]/td[3]
+    }
+
+    // nadawanie grup testom np. biblioteka TestNG
+//    @org.testng.annotations.Test(groups = {"smoke test"})
+    @Test()
+    public void testFour() {
+        List<String> listOfCars = new ArrayList<>();
+        listOfCars.add("volvo");
+        listOfCars.add("saab");
+        listOfCars.add("opel");
+        listOfCars.add("audi");
+
+        WebElement dropdownOfCars = driver.findElement(By.xpath("//div[text()='Select an option and validate that it is selected']/select"));
+
+        // wyrażenia lambda
+        for(int i = 0 ; i < listOfCars.size(); i++) {
+            dropdownOfCars.click();
+
+//            System.out.println("//option[@value='" + listOfCars.get(i) + "']");
+            WebElement dropdownOfCarsOption = driver.findElement(By.xpath("//option[@value='" + listOfCars.get(i) + "']"));
+            dropdownOfCarsOption.click();
+            Assertions.assertTrue(dropdownOfCarsOption.isSelected());
+            Assertions.assertEquals(listOfCars.get(i), dropdownOfCarsOption.getText().toLowerCase());
+        }
+    }
+
+    //  //input[@type='checkbox' and @value='Bike']
+    //  //div[contains(text(), 'Select an option')]
+    //  //div[contains(text(), 'and validate that')]
+    // ancestor, following-sibling, preceeding-sibling
+
 }
